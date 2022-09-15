@@ -2,6 +2,7 @@ package com.tutelar.network
 
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 
 /**
@@ -10,7 +11,7 @@ import retrofit2.http.Path
  */
 internal interface Api {
 
-    @GET("api-key/validate/{api_key}")
-    suspend fun isValidApiKey(@Path("api_key") apiKey: String): Response<com.tutelar.model.Response>
+    @GET("no-auth/api-key/validate")
+    suspend fun isValidApiKey(@Header("api-key") apiKey: String): Response<com.tutelar.model.Response>
 
 }

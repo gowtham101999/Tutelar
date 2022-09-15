@@ -1,6 +1,7 @@
 package com.tutelar.network
 
 import com.google.gson.GsonBuilder
+import com.tutelar.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,16 +14,11 @@ import java.util.concurrent.TimeUnit
  */
 internal object ApiClient {
 
-    private var BASE_URL:String = "http://172.18.24.6:3004/api/tutler/properties/"
-
-    private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
-
     private var gson = GsonBuilder()
         .setLenient()
         .create()
 
     private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(interceptor.setLevel(HttpLoggingInterceptor.Level.BODY))
         .readTimeout(
             120,
             TimeUnit.SECONDS
@@ -33,7 +29,7 @@ internal object ApiClient {
     val getClient: Api
         get() {
             val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build()

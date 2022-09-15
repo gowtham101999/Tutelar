@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -11,7 +12,10 @@ android {
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        consumerProguardFiles "proguard-rules.pro"
+
+        buildConfigField 'String', 'BASE_URL', BASE_URL
+
     }
 
     buildTypes {
@@ -50,4 +54,18 @@ dependencies {
 
     //Location
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.tutelar'
+                artifactId = 'sdk'
+                version = '1.0.0'
+            }
+        }
+    }
 }
