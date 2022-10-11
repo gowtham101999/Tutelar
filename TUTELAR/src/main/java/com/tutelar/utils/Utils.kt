@@ -22,8 +22,10 @@ import android.text.format.Formatter
 import android.util.DisplayMetrics
 import androidx.core.content.ContextCompat
 import java.io.File
+import java.math.BigInteger
 import java.net.InetAddress
 import java.net.NetworkInterface
+import java.security.MessageDigest
 import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -323,4 +325,10 @@ internal fun getScreenSize(activity: Activity): String {
 internal fun isDevMode(context: Activity): Boolean {
     return Settings.Secure.getInt(context.contentResolver,
         Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0
+}
+
+internal fun getHashValue(data: Map<String, Any>): String {
+    val md = MessageDigest.getInstance("MD5")
+    val bigInt = BigInteger(1, md.digest(data.toString().toByteArray(Charsets.UTF_8)))
+    return String.format("%032x", bigInt)
 }

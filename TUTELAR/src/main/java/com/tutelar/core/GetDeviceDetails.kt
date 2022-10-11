@@ -6,6 +6,7 @@ package com.tutelar.core
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
+import com.google.gson.GsonBuilder
 import com.tutelar.utils.*
 import com.tutelar.utils.getDeviceId
 import com.tutelar.utils.getIPAddress
@@ -13,8 +14,8 @@ import com.tutelar.utils.getImeiNumber
 import com.tutelar.utils.isEmulator
 
 @SuppressLint("NewApi")
-internal fun getDetails(activity: Activity): Map<String, Any> {
-    return mapOf(
+internal fun getDetails(activity: Activity): String {
+     val data = mutableMapOf(
         "is_real_device" to !isEmulator(),
         "device" to Build.DEVICE,
         "device_id" to getDeviceId(activity),
@@ -51,6 +52,8 @@ internal fun getDetails(activity: Activity): Map<String, Any> {
         "screen_brightness" to getScreenBrightness(activity),
         "screen_size" to getScreenSize(activity),
         "developer_mode_enabled" to isDevMode(activity),
-        "cell_info" to getAllCellInfo(activity)
+        "time" to System.currentTimeMillis()
     )
+    data["hash"] = getHashValue(data)
+    return GsonBuilder().setPrettyPrinting().create().toJson(data)
 }

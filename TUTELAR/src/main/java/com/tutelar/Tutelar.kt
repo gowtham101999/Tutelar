@@ -47,7 +47,7 @@ object Tutelar {
 
     fun getDeviceDetails(activity: Activity): String {
         return if (Constants.isValidClient) {
-            GsonBuilder().setPrettyPrinting().create().toJson(getDetails(activity))
+            getDetails(activity)
         }else {
             "Invalid Api Key"
         }
